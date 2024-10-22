@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:novo_projeto/autenticacao/sharedSessao.dart';
+import 'package:novo_projeto/controle/loginControler.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -44,17 +45,17 @@ class Login extends StatelessWidget {
           ),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             ElevatedButton.icon(
-              onPressed: () {
-                if (_isLoginValid(usuarioController.text) &&
-                    _isSenhaValid(senhaController.text)) {
-                  Navigator.pushNamed(context, '/listagem');
-                      senhaController.text = "";
-                      usuarioController.text = "";
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text('Usuario ou senha incorretos!')),
-                  );
+              onPressed: () async {
+                Logincontroler u = Logincontroler();
+                try {
+                  bool success = await u.login(usuarioController.text, senhaController.text);
+                  if (success) {
+                    Navigator.pushNamed(context, '/listagem');
+                  } else {
+                    _showDialog(context,"login ou senha invalidos", "erro");
+                  }
+                } catch(e) {
+                  _showDialog(context, "erro ao realizar login", "erro");
                 }
               },
               icon: Icon(Icons.login),
@@ -62,17 +63,20 @@ class Login extends StatelessWidget {
             ),
             ElevatedButton.icon(
               onPressed: () async {
-                if (_isLoginValid(usuarioController.text) &&
-                    _isSenhaValid(senhaController.text)) {
-                      await SharedSessao.salvarToken(usuarioController.text);
-                      Navigator.pushNamed(context, '/listagem');
-                      senhaController.text = "";
-                      usuarioController.text = "";
+                if (usuarioController.text.isNotEmpty) {
+                  if (senhaController.text.isNotEmpty) {
+                    Logincontroler u = Logincontroler();
+                    try {
+                     await  u.salvar(usuarioController.text, senhaController.text);
+                     _showDialog(context, "usuario cadastrado com sucesso!", "sucesso");
+                    } catch(e) {
+                      _showDialog(context, e.toString(), "erro");
+                    }
+                  } else {
+                    _showDialog(context, "Senha não pode ser vazio!", "erro");
+                  }
                 } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text('Usuario ou senha incorretos!')),
-                  );
+                  _showDialog(context, "Usuario não pode ser vazio!", "erro");
                 }
               },
               icon: Icon(Icons.add_circle_outline_sharp),
@@ -82,5 +86,24 @@ class Login extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _showDialog(BuildContext context, String message, String title) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              }, 
+            child: Text('ok'))
+          ]
+        );
+      }
+      );
   }
 }

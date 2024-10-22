@@ -30,6 +30,7 @@ class _App extends State<App> {
 
       routes: {
         '/': (context) => _carregaHome(),
+        '/login': (context) => Login(),
         '/listagem': (context) => Listagem(pessoaController: pessoaController),
         '/cadastro': (context) => Cadastro(pessoaController: pessoaController),
       },
