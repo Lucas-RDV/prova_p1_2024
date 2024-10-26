@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:novo_projeto/autenticacao/sharedSessao.dart';
+import 'package:novo_projeto/controle/loginController.dart';
 import 'package:novo_projeto/controle/pessoaController.dart';
 
 class Listagem extends StatefulWidget {
@@ -20,14 +20,16 @@ class _Listagem extends State<Listagem> {
       appBar: AppBar(
         title: const Text('Listagem de Pessoas'),
         actions: [
-          Container(child: IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/login');
-              SharedSessao.logout();
-            }, 
-            icon: Icon(Icons.logout),
-            ),)
-        ],),
+          IconButton(
+              onPressed: () {
+                Logincontroller l = Logincontroller();
+                l.logout();
+                Navigator.pushNamed(context, "/");
+                //  Navigator.pop(context);
+              },
+              icon: Icon(Icons.logout))
+        ],
+      ),
       body: FutureBuilder<List>(
         future: widget.pessoaController
             .listar(), // Chama o método assíncrono para obter o tamanho

@@ -7,7 +7,7 @@ import 'package:path/path.dart';
 class DaoSqLite implements InterfaceDao {
   Future<Database> initializeDB() async {
     String path = join(await getDatabasesPath(), 'bd.db');
-    //deleteDatabase(path); //para desenvolvimento
+    // deleteDatabase(path); //para desenvolvimento
     return openDatabase(path, onCreate: (db, version) async {
       await db.execute(
           'CREATE TABLE pessoas(id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT, email TEXT, telefone TEXT);');

@@ -1,26 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:novo_projeto/autenticacao/sharedSessao.dart';
-import 'package:novo_projeto/controle/loginControler.dart';
+import 'package:novo_projeto/controle/loginController.dart';
 
 class Login extends StatelessWidget {
-  const Login({super.key});
-
-  bool _isLoginValid(String login) {
-    if (login.isEmpty) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  bool _isSenhaValid(String senha) {
-    if (senha.isEmpty) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -46,16 +27,17 @@ class Login extends StatelessWidget {
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             ElevatedButton.icon(
               onPressed: () async {
-                Logincontroler u = Logincontroler();
+                Logincontroller u = Logincontroller();
                 try {
-                  bool success = await u.login(usuarioController.text, senhaController.text);
+                  bool success = await u.login(
+                      usuarioController.text, senhaController.text);
                   if (success) {
-                    Navigator.pushNamed(context, '/listagem');
+                    Navigator.pushNamed(context, "/listagem");
                   } else {
-                    _showDialog(context,"login ou senha invalidos", "erro");
+                    _showDialog(context, "Login ou senha inválidos.", "Erro");
                   }
-                } catch(e) {
-                  _showDialog(context, "erro ao realizar login", "erro");
+                } catch (e) {
+                  _showDialog(context, "Erro ao realizar login: $e", "Erro");
                 }
               },
               icon: Icon(Icons.login),
@@ -63,24 +45,17 @@ class Login extends StatelessWidget {
             ),
             ElevatedButton.icon(
               onPressed: () async {
-                if (usuarioController.text.isNotEmpty) {
-                  if (senhaController.text.isNotEmpty) {
-                    Logincontroler u = Logincontroler();
-                    try {
-                     await  u.salvar(usuarioController.text, senhaController.text);
-                     _showDialog(context, "usuario cadastrado com sucesso!", "sucesso");
-                    } catch(e) {
-                      _showDialog(context, e.toString(), "erro");
-                    }
-                  } else {
-                    _showDialog(context, "Senha não pode ser vazio!", "erro");
-                  }
-                } else {
-                  _showDialog(context, "Usuario não pode ser vazio!", "erro");
+                Logincontroller u = Logincontroller();
+                try {
+                  await u.salvar(usuarioController.text, senhaController.text);
+                  _showDialog(
+                      context, "Cadastro realizado com sucesso!", "Correto");
+                } catch (e) {
+                  _showDialog(context, "Erro ao cadastrar: $e", "Erro");
                 }
               },
               icon: Icon(Icons.add_circle_outline_sharp),
-              label: Text('Cadastar'),
+              label: Text('Cadastrar'),
             )
           ])
         ],
@@ -99,11 +74,12 @@ class Login extends StatelessWidget {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-              }, 
-            child: Text('ok'))
-          ]
+              },
+              child: Text("OK"),
+            ),
+          ],
         );
-      }
-      );
+      },
+    );
   }
 }

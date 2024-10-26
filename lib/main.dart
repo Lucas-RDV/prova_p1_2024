@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:novo_projeto/autenticacao/sharedSessao.dart';
 import 'package:novo_projeto/cadastro.dart';
 import 'package:novo_projeto/controle/pessoaController.dart';
 import 'package:novo_projeto/listagem.dart';
 import 'package:novo_projeto/login.dart';
-import 'package:novo_projeto/autenticacao/sharedSessao.dart';
 
 void main(List<String> args) {
   runApp(const App());
@@ -20,17 +20,13 @@ class App extends StatefulWidget {
 
 class _App extends State<App> {
   PessoaController pessoaController = PessoaController();
-  final Future<String?> token = SharedSessao.carregarToken();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // home: const Listagem(),
       initialRoute: '/',
-
       routes: {
         '/': (context) => _carregaHome(),
-        '/login': (context) => Login(),
         '/listagem': (context) => Listagem(pessoaController: pessoaController),
         '/cadastro': (context) => Cadastro(pessoaController: pessoaController),
       },
@@ -39,7 +35,7 @@ class _App extends State<App> {
 
   Widget _carregaHome() {
     return FutureBuilder<String?>(
-      future: token,
+      future: SharedSessao.carregarToken(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator(); // ou uma tela de loading

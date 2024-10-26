@@ -26,7 +26,7 @@ class SharedSessao {
   }
 
 // Uso das funções em um fluxo de login/logout
-  static void login(String token) async {
+  void login(String token) async {
     await salvarToken(token); // Salva o token no login
   }
 
