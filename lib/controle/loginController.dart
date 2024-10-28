@@ -1,8 +1,5 @@
-import 'dart:ffi';
-
-import 'package:novo_projeto/autenticacao/sharedSessao.dart';
+import 'package:novo_projeto/autenticacao/secureStorageSessao.dart';
 import 'package:novo_projeto/repositorio/DaoSqLite.dart';
-import 'package:novo_projeto/repositorio/interfaceDao';
 
 import '../entidade/usuario.dart';
 
@@ -17,13 +14,13 @@ class Logincontroller {
   Future<bool> login(String nome, String senha) async {
     Future<bool> retorno = _dao.login(nome, senha);
     if (await retorno) {
-      SharedSessao.salvarToken(nome);
+      await SecureStorageSessao.salvarToken(nome);
       return true;
     }
     return false;
   }
 
   void logout() async {
-    SharedSessao.logout();
+    SecureStorageSessao.removerToken();
   }
 }

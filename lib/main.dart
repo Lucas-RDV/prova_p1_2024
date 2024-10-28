@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:novo_projeto/autenticacao/sharedSessao.dart';
+import 'package:novo_projeto/autenticacao/secureStorageSessao.dart';
 import 'package:novo_projeto/cadastro.dart';
 import 'package:novo_projeto/controle/pessoaController.dart';
 import 'package:novo_projeto/listagem.dart';
@@ -35,7 +35,7 @@ class _App extends State<App> {
 
   Widget _carregaHome() {
     return FutureBuilder<String?>(
-      future: SharedSessao.carregarToken(),
+      future: SecureStorageSessao.carregarToken(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator(); // ou uma tela de loading

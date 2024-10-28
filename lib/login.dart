@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:novo_projeto/controle/loginController.dart';
 
 class Login extends StatelessWidget {
+  const Login({super.key});
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
