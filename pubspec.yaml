@@ -7,14 +7,12 @@ environment:
   sdk: ^3.5.3
 
 dependencies:
-  dart_jsonwebtoken: ^2.14.1
   flutter:
     sdk: flutter
   flutter_masked_text2: ^0.9.1
-  flutter_secure_storage: ^4.2.1
+  flutter_secure_storage: ^9.2.2
   shared_preferences: ^2.3.2
   sqflite: ^2.3.3+2
-  uuid: ^4.5.1
 
 dev_dependencies:
   flutter_test:
