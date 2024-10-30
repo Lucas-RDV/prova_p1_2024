@@ -7,6 +7,7 @@ environment:
   sdk: ^3.5.3
 
 dependencies:
+  dart_jsonwebtoken: ^2.14.1
   flutter:
     sdk: flutter
   flutter_masked_text2: ^0.9.1

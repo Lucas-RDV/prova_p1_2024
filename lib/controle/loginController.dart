@@ -1,5 +1,6 @@
 import 'package:novo_projeto/autenticacao/secureStorageSessao.dart';
 import 'package:novo_projeto/repositorio/DaoSqLite.dart';
+import 'package:novo_projeto/autenticacao/JWDtoken.dart';
 
 import '../entidade/usuario.dart';
 
@@ -14,7 +15,8 @@ class Logincontroller {
   Future<bool> login(String nome, String senha) async {
     Future<bool> retorno = _dao.login(nome, senha);
     if (await retorno) {
-      await SecureStorageSessao.salvarToken(nome);
+      String token = JWDtoken.criarToken(nome, senha);
+      await SecureStorageSessao.salvarToken(token);
       return true;
     }
     return false;
